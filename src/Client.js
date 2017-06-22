@@ -1,7 +1,5 @@
 import * as http from './http';
 
-const tokenUrl = 'http://localhost:8001/api/tokens';
-
 class Client {
   constructor(host, credentials) {
     this.host = host;
@@ -31,9 +29,15 @@ class Client {
     });
   }
 
-  websocket() {
-    const url = 'ws://' + host + '/api/websocket';
-    new WebSocket()
+  eventSocket() {
+    const url = 'ws://' + this.host + '/api/websocket?token=' + this.token;
+    return new WebSocket(url);
+  }
+
+  categorySocket(category) {
+    const url = 'ws://' + this.host + '/api/websocket/' + category + '?token=' + this.token;
+    return new WebSocket(url);
   }
 }
+
 export default Client;
